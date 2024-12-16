@@ -1,0 +1,1 @@
+<?php echo @$body; ?><?php /**PATH /home/u556817164/domains/hanaschool.com/public_html/resources/views/backEnd/email/emailBody.blade.php ENDPATH**/ ?>

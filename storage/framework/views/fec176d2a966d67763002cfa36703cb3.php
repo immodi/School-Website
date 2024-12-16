@@ -1,0 +1,1 @@
+<div class="tmp-services pb-spacer" style="height: <?php echo e(pagesetting('spacer_height')); ?>px; width: 100%"></div><?php /**PATH /home/u556817164/domains/hanaschool.com/public_html/resources/views/themes/edulia/pagebuilder/spacer/view.blade.php ENDPATH**/ ?>
