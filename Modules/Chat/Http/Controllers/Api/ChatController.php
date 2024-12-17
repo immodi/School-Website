@@ -139,6 +139,17 @@ class ChatController extends Controller
                 'message' => $validation->messages()
             ]);
         }
+        
+        $users = $this->invitationService->getAllConnectedUsers();
+        $activeUser = User::with('staff')->find($request->user_id);
+
+        // Check if the user is a staff member
+        if ($activeUser->staff) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Staff members cannot delete conversations.'
+            ]);
+        }            
 
         try {
             if ($this->conversationService->oneToOneDelete($request->all())) {

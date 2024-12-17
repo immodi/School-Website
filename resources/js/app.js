@@ -30,7 +30,9 @@ Vue.component('side-panel-component', require('./components/chat/SidePanelCompon
 Vue.component('status-change-component', require('./components/chat/StatusChangeComponent.vue').default);
 
 import VueChatScroll from 'vue-chat-scroll'
+import wysiwyg from "vue-wysiwyg";
 Vue.use(VueChatScroll)
+Vue.use(wysiwyg, {}); // config is optional. more below
 
 const app = new Vue({
     el: '#admin-visitor-area'
