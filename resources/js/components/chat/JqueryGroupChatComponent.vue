@@ -295,7 +295,9 @@
                                     <i class="ti-close"></i>
                                 </span>
                             </div>
-<vue-editor v-model="newMessage" :editor-toolbar="customToolbar" ref="contenteditor"/>
+<!-- <vue-editor v-model="newMessage" :editor-toolbar="customToolbar" ref="contenteditor"/> -->
+<wysiwyg v-model="newMessage" />
+
                             <!-- <textarea v-model="newMessage"
                                       @keydown="sendTypingEvent"
                                       @keyup.enter.exact="sendMessage"
@@ -1110,6 +1112,7 @@ export default {
         onFileChange(e) {
           clearInterval(this.intervalId)
           const file = e.target.files[0];
+          this.file = file
             this.addPadding = true;
             this.$refs.contenteditor.quill.focus();
             if (['image/jpg', 'image/png', 'image/jpeg', 'image/JPG', 'image/PNG', 'image/JPEG'].includes(file['type'])){
