@@ -32,7 +32,15 @@ Vue.component('status-change-component', require('./components/chat/StatusChange
 import VueChatScroll from 'vue-chat-scroll'
 import wysiwyg from "vue-wysiwyg";
 Vue.use(VueChatScroll)
-Vue.use(wysiwyg, {}); // config is optional. more below
+Vue.use(wysiwyg, {
+    hideModules: {
+        "code": true,
+        "image": true,
+        "table": true,
+        "separator": true,
+    }
+
+}); // config is optional. more below
 
 const app = new Vue({
     el: '#admin-visitor-area'
