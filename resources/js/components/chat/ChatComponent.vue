@@ -321,7 +321,8 @@
                                     <i class="ti-close"></i>
                                 </span>
                             </div>
-                            <vue-editor v-model="newMessage" :editor-toolbar="customToolbar" ref="contenteditor"/>
+                            <!-- <vue-editor v-model="newMessage" :editor-toolbar="customToolbar" ref="contenteditor"/> -->
+                            <wysiwyg v-model="newMessage" />
 
                             <div class="input-group-append">
                                 <button class="btn pr-2" type="button" @click="toggleRecording"> <i
@@ -807,6 +808,7 @@ export default {
 
         onFileChange(e) {
             const file = e.target.files[0];
+            this.file = file
             this.addPadding = true;
             this.$refs.contenteditor.quill.focus();
             if (['image/jpg', 'image/png', 'image/jpeg', 'image/JPG', 'image/PNG', 'image/JPEG'].includes(file['type'])) {
@@ -998,6 +1000,8 @@ export default {
 </script>
 
 <style>
+@import "~vue-wysiwyg/dist/vueWysiwyg.css";
+
 .chat_view_list .chat_input_box {
     position: relative;
     padding: 0;

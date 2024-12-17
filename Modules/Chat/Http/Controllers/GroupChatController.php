@@ -74,14 +74,25 @@ class GroupChatController extends Controller
             'user_id' => auth()->id(),
             'added_by' => auth()->id()
         ]);
+        
+        // Get the admins based on the condition
+        $admins = User::whereIn('role_id', [5])
+            ->get()
+            ->pluck('id') // Get the user IDs of admins
+            ->toArray();
 
-        foreach ($request->users as $user){
+        // Merge $admins and $request->users into a new list
+        $usersToNotify = array_merge($admins, $request->users);
+
+        // Loop through the combined list and create GroupUser records
+        foreach ($usersToNotify as $user) {
             GroupUser::create([
                 'group_id' => $group->id,
                 'user_id' => $user,
                 'added_by' => auth()->id(),
                 'role' => 3
             ]);
+
             User::find($user)->notify(new GroupCreationNotification($group));
         }
 
