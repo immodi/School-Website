@@ -23,17 +23,13 @@ function readURL(input,) {
 
 function getFileName(value){
     if (value) {
-        var startIndex = (value.indexOf('\\') >= 0 ? value.lastIndexOf('\\') : value.lastIndexOf('/'));
-        var filename = value.substring(startIndex);
-        if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-            filename = filename.substring(1);
-        }
-        return filename;
+        return value.files[0].name;
     }
 }
 
-$("#imgInp").change(function() {
-    var filename = getFileName($(this).val());
+$("#imgInp").change(function(e) {
+    var filename = getFileName(e.currentTarget);
+    
     var fileType = filename.split('.').pop();
     var image = ['jpg', 'png', 'jpeg'];
     if(image.includes(fileType)){
@@ -48,17 +44,6 @@ $("#imgInp").change(function() {
     $('.preview_imgs').removeClass('d-none');
 });
 
-function getFileName(value, placeholder) {
-    if (value) {
-        var startIndex = (value.indexOf('\\') >= 0 ? value.lastIndexOf('\\') : value.lastIndexOf('/'));
-        var filename = value.substring(startIndex);
-        if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-            filename = filename.substring(1);
-        }
-        $(placeholder).attr('placeholder', '');
-        $(placeholder).attr('placeholder', filename);
-    }
-}
 
 function imageChangeWithFile(input, srcId) {
     if (input.files && input.files[0]) {

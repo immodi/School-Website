@@ -295,8 +295,10 @@
                                     <i class="ti-close"></i>
                                 </span>
                             </div>
-<!-- <vue-editor v-model="newMessage" :editor-toolbar="customToolbar" ref="contenteditor"/> -->
-<wysiwyg v-model="newMessage" />
+
+                            <div class="attachment-notice" ref="attachNotice" style="font-weight: bold"></div>
+                            <!-- <vue-editor v-model="newMessage" :editor-toolbar="customToolbar" ref="contenteditor"/> -->
+                            <wysiwyg v-model="newMessage" ref="contenteditor"/>
 
                             <!-- <textarea v-model="newMessage"
                                       @keydown="sendTypingEvent"
@@ -313,7 +315,9 @@
                                 <button v-if="can_file_upload" class="btn" type="button"> <i class="ti-clip"></i>
                                     <input type="file" @change="onFileChange" id="imgInp" ref="file" v-on:change="onChangeFileUpload()" accept=".jpg,.jpeg,.png,.doc,.docx,.pdf,.mp4,.3gp,.webm">
                                 </button>
-                              <button class="btn svg_send_button" @click="sendMessage" type="button">
+                              <!-- <button class="btn svg_send_button" @click="sendMessage" type="button"> -->
+                                <button class="btn svg_send_button" type="submit">
+
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40" width="20px" height="20px">
                                   <g id="surface57286370">
                                     <rect x="0" y="0" width="40" height="40" style="fill: #F5F8FF; fill-opacity: 1; stroke: none;" />
@@ -557,6 +561,10 @@
             </div>
         </div>
         <!--    MODALS ENDS   -->
+        
+        <div ref="loadingSpinner" id="loading-spinner">
+            <div class="spinner"></div>
+        </div>
     </div>
 </template>
 
@@ -736,6 +744,11 @@ export default {
     },
 
     mounted() {
+        console.log("mounting");
+        const wysiwygNode = this.$refs.contenteditor;
+        console.log(wysiwygNode);
+
+
       if (typeof this.single_threads == "object"){
         this.only_threads = Object.keys(this.single_threads).map((key) => {
           return this.single_threads[key]
@@ -745,26 +758,33 @@ export default {
         if (this.only_threads.length < 20){
             this.loadable = false;
         }
-        if (window._rtl) {
-            this.$refs.contenteditor.quill.format('direction', 'rtl');
-            this.$refs.contenteditor.quill.format('align', 'right');
-         }
+      
     },
 
     methods: {
         sendMessage() {
-            this.emoji = false;
+            this.$refs.loadingSpinner.style.display = 'flex';
+            this.$refs.contenteditor.$el.focus();
+
+            // this.emoji = false;
             let config = { headers: { 'Content-Type': 'multipart/form-data' } }
             let formData = new FormData();
             if(this.replying_to){
                 formData.append('reply', this.replying_to);
             }
-            formData.append('file_attach', this.file);
-            formData.append('message', this.newMessage);
+            
+            formData.append('file_attach', this.$refs.file.files[0]);
+            formData.append('message', this.$refs.contenteditor.$el.children[1].innerText + "&#8203;&#8203;");
             formData.append('user_id', this.user.id);
             formData.append('group_id', this.group.id);
+            console.log(formData);
+            
 
             axios.post(this.send_message_url, formData, config).then((response) => {
+                if (typeof response.data === "string") {
+                    return 0;
+                }
+
                 if (response.data.empty){
                     return 0;
                 }
@@ -779,10 +799,14 @@ export default {
                 this.intervalId = window.setInterval(() => {
                     this.checkNewMessage()
                 }, 10000);
+                this.$refs.loadingSpinner.style.display = 'none';
             }).catch((error) => {
                 console.log(error);
+                this.$refs.loadingSpinner.style.display = 'none';
             });
             this.newMessage = '';
+            this.$refs.contenteditor.$el.children[1].innerText = ""
+            this.$refs.attachNotice.innerText = ""
         },
 
         deleteMessage(thread){
@@ -999,14 +1023,19 @@ export default {
             }
         },
 
-        onChangeFileUpload(){
-                this.file = this.$refs.file.files[0];
+        onChangeFileUpload() {
+            console.log("one file change");
+            console.log(this.$refs.file.files[0]);
+            
+            this.file = this.$refs.file.files[0];
+            this.$refs.attachNotice.innerText = `${this.file.name}`
         },
+        selectEmoji(emoji) {
+            // let lastIndex = this.$refs.contenteditor.$el.innerText.length - 1;
+            this.$refs.contenteditor.$el.children[1].innerText += emoji.data;
+            // this.$refs.contenteditor.$el.focus();
+            this.$refs.contenteditor.$el.focus();
 
-       selectEmoji(emoji) {
-             let lastIndex = this.$refs.contenteditor.quill.getText().length - 1;
-             this.$refs.contenteditor.quill.insertText(lastIndex, emoji.data);
-             this.$refs.contenteditor.quill.focus();
         },
 
         assign_role_to_user(){
@@ -1112,11 +1141,14 @@ export default {
         onFileChange(e) {
           clearInterval(this.intervalId)
           const file = e.target.files[0];
-          this.file = file
+          console.log("filechange", file);
+
+            this.file = file
             this.addPadding = true;
-            this.$refs.contenteditor.quill.focus();
+            this.$refs.contenteditor.$el.focus();
             if (['image/jpg', 'image/png', 'image/jpeg', 'image/JPG', 'image/PNG', 'image/JPEG'].includes(file['type'])){
-               return this.preview_url = URL.createObjectURL(file);
+                console.log(URL.createObjectURL(file));
+                return this.preview_url = URL.createObjectURL(file);
             }
             return this.file_name_preview = file.name
 
@@ -1389,5 +1421,38 @@ export default {
         display: flex;
     flex-direction: row-reverse;
     gap: 5px;
+}
+
+#loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensure it stays on top */
+    display: none; /* Hidden by default */
+}
+
+/* Spinner animation */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top: 5px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+    transform: rotate(360deg);
+    }
 }
 </style>
