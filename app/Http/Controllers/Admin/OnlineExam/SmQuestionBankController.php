@@ -62,6 +62,43 @@ class SmQuestionBankController extends Controller
     {
         try {
             if ($request->question_type != 'M' && $request->question_type != 'MI') {
+
+                if (!Schema::hasColumn('sm_question_banks', 'question_image')) {
+                    Schema::table('sm_question_banks', function ($table) {
+                        $table->string('question_image')->nullable();
+                    });
+                }
+            
+                $fileName = "";
+                $imagemimes = [
+                    'image/png',
+                    'image/jpg',
+                    'image/jpeg'
+                ];
+
+                $maxFileSize = SmGeneralSettings::first('file_size')->file_size;
+                $file = $request->file('question_image');
+                $fileSize =  filesize($file);
+                $fileSizeKb = ($fileSize / 1000000);
+                if ($fileSizeKb >= $maxFileSize) {
+                    Toastr::error('Max upload file size ' . $maxFileSize . ' Mb is set in system', 'Failed');
+                    return redirect()->back();
+                }
+
+                if (($request->file('question_image') != "")  && (in_array($file->getMimeType(), $imagemimes))) {
+                    $image_info = getimagesize($request->file('question_image'));
+                    if ($image_info[0] <= 650 && $image_info[1] <= 450) {
+                        $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
+                        $file->move('public/uploads/upload_contents/', $fileName);
+                        $fileName = 'public/uploads/upload_contents/' . $fileName;
+                    } else {
+                        Toastr::error('Question Image should be 650x450', 'Failed');
+                        // return redirect()->back();
+                        return redirect()->to(url()->previous())
+                            ->withInput($request->input());
+                    }
+                }
+
                 foreach ($request->un_section_ids as $section) {
                     $online_question = new SmQuestionBank();
                     $online_question->type = $request->question_type;
@@ -71,6 +108,7 @@ class SmQuestionBankController extends Controller
                     $online_question->un_session_id = $request->un_session_id;
                     $online_question->un_faculty_id = $request->un_faculty_id;
                     $online_question->un_department_id = $request->un_department_id;
+                    $online_question->question_image = $fileName;
 
                     $online_question->marks = $request->marks;
                     $online_question->question = $request->question;
@@ -90,116 +128,43 @@ class SmQuestionBankController extends Controller
                     Toastr::error('Operation Failed', 'Failed');
                     return redirect()->back();
                 }
-            } elseif ($request->question_type == 'MI') {
-
-                // return $request;
-
-                DB::beginTransaction();
-
+            } else {
                 if (!Schema::hasColumn('sm_question_banks', 'question_image')) {
                     Schema::table('sm_question_banks', function ($table) {
                         $table->string('question_image')->nullable();
                     });
                 }
-                if (!Schema::hasColumn('sm_question_banks', 'answer_type')) {
-                    Schema::table('sm_question_banks', function ($table) {
-                        $table->string('answer_type')->nullable();
-                    });
-                }
+            
+                $fileName = "";
+                $imagemimes = [
+                    'image/png',
+                    'image/jpg',
+                    'image/jpeg'
+                ];
 
-                try {
-
-                    $fileName = "";
-                    $imagemimes = [
-                        'image/png',
-                        'image/jpg',
-                        'image/jpeg'
-                    ];
-
-                    $maxFileSize = SmGeneralSettings::first('file_size')->file_size;
-                    $file = $request->file('question_image');
-                    $fileSize =  filesize($file);
-                    $fileSizeKb = ($fileSize / 1000000);
-                    if ($fileSizeKb >= $maxFileSize) {
-                        Toastr::error('Max upload file size ' . $maxFileSize . ' Mb is set in system', 'Failed');
-                        return redirect()->back();
-                    }
-
-
-                    if (($request->file('question_image') != "")  && (in_array($file->getMimeType(), $imagemimes))) {
-                        $image_info = getimagesize($request->file('question_image'));
-                        if ($image_info[0] <= 650 && $image_info[1] <= 450) {
-                            $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-                            $file->move('public/uploads/upload_contents/', $fileName);
-                            $fileName = 'public/uploads/upload_contents/' . $fileName;
-                        } else {
-                            Toastr::error('Question Image should be 650x450', 'Failed');
-                            // return redirect()->back();
-                            return redirect()->to(url()->previous())
-                                ->withInput($request->input());
-                        }
-                    }
-                    foreach ($request->section as $section) {
-                        $online_question = new SmQuestionBank();
-                        $online_question->type = $request->question_type;
-                        $online_question->q_group_id = $request->group;
-                        $online_question->un_semester_label_id = $request->un_semester_label_id;
-                        $online_question->un_section_id = $section;
-                        $online_question->un_session_id = $request->un_session_id;
-                        $online_question->un_faculty_id = $request->un_faculty_id;
-                        $online_question->un_department_id = $request->un_department_id;
-                        $online_question->marks = $request->marks;
-                        $online_question->question = $request->question;
-                        $online_question->answer_type = $request->answer_type;
-                        $online_question->question_image = $fileName;
-                        if ($request->question_type == 'MI') {
-                            $online_question->number_of_option = $request->number_of_optionImg;
-                        } else {
-
-                            $online_question->number_of_option = $request->number_of_option;
-                        }
-                        $online_question->school_id = Auth::user()->school_id;
-                        $online_question->un_academic_id = getAcademicId();
-                        $online_question->save();
-                        $online_question->toArray();
-                    }
-                    $i = 0;
-                    if (isset($request->images)) {
-                        foreach ($request->images as $key => $image) {
-                            $i++;
-                            $option_check = 'option_check_' . $i;
-                            $online_question_option = new SmQuestionBankMuOption();
-                            $online_question_option->question_bank_id = $online_question->id;
-
-                            $file = $request->file('images');
-                            $fileName = "";
-                            if (($file[$key] != "")  && (in_array($file[$key]->getMimeType(), $imagemimes))) {
-                                $fileName = md5($file[$key]->getClientOriginalName() . time()) . "." . $file[$key]->getClientOriginalExtension();
-                                $file[$key]->move('public/uploads/upload_contents/', $fileName);
-                                $fileName = 'public/uploads/upload_contents/' . $fileName;
-                            }
-
-                            $online_question_option->title = $fileName;
-
-                            $online_question_option->school_id = Auth::user()->school_id;
-                            $online_question_option->un_academic_id = getAcademicId();
-                            if (isset($request->$option_check)) {
-                                $online_question_option->status = 1;
-                            } else {
-                                $online_question_option->status = 0;
-                            }
-                            $online_question_option->save();
-                        }
-                    }
-                    DB::commit();
-                    Toastr::success('Operation successful', 'Success');
+                $maxFileSize = SmGeneralSettings::first('file_size')->file_size;
+                $file = $request->file('question_image');
+                $fileSize =  filesize($file);
+                $fileSizeKb = ($fileSize / 1000000);
+                if ($fileSizeKb >= $maxFileSize) {
+                    Toastr::error('Max upload file size ' . $maxFileSize . ' Mb is set in system', 'Failed');
                     return redirect()->back();
-                } catch (\Exception $e) {
-                    DB::rollBack();
                 }
-                Toastr::error('Operation Failed', 'Failed');
-                return redirect()->back();
-            } else {
+
+                if (($request->file('question_image') != "")  && (in_array($file->getMimeType(), $imagemimes))) {
+                    $image_info = getimagesize($request->file('question_image'));
+                    if ($image_info[0] <= 650 && $image_info[1] <= 450) {
+                        $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
+                        $file->move('public/uploads/upload_contents/', $fileName);
+                        $fileName = 'public/uploads/upload_contents/' . $fileName;
+                    } else {
+                        Toastr::error('Question Image should be 650x450', 'Failed');
+                        // return redirect()->back();
+                        return redirect()->to(url()->previous())
+                            ->withInput($request->input());
+                    }
+                }
+
                 DB::beginTransaction();
 
                 try {
@@ -218,6 +183,7 @@ class SmQuestionBankController extends Controller
                         $online_question->number_of_option = $request->number_of_option;
                         $online_question->school_id = Auth::user()->school_id;
                         $online_question->un_academic_id = getAcademicId();
+                        $online_question->question_image = $fileName;
                         $online_question->save();
                         $online_question->toArray();
                         $i = 0;
@@ -275,6 +241,9 @@ class SmQuestionBankController extends Controller
         } else {
 
             try {
+                // M (multiple choice)
+                // MI (multiple image selection)
+                // T (True or False)
 
                 if ($request->question_type != 'M' && $request->question_type != 'MI') {
                     foreach ($request->section as $section) {
