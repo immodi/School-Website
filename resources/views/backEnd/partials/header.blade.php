@@ -33,6 +33,7 @@
 <link rel="stylesheet" href="{{ asset('public/backEnd/vendors/css/nice-select.css') }}" />
 <link rel="stylesheet" href="{{ asset('public/backEnd/vendors/css/toastr.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('public/backEnd/assets/css/style.css')}}" />
+@yield('quill')
 @if(moduleStatusCheck('WhatsappSupport'))
 <link rel="stylesheet" href="{{ asset('public/whatsapp-support/style.css') }}">
 @endif 
