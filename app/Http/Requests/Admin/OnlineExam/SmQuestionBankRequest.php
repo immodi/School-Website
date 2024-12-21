@@ -32,7 +32,7 @@ class SmQuestionBankRequest extends FormRequest
             'marks' => 'required',
             'number_of_option' => 'required_if:question_type,M',
             'answer_type' => 'required_if:question_type,MI',
-            'question_image' => 'required_if:question_type,MI|mimes:jpg,jpeg,png|max:' . $maxFileSize,
+            'question_image' => 'nullable|mimes:jpg,jpeg,png|max:' . $maxFileSize,
             'number_of_optionImg' => 'required_if:question_type,MI',
             'trueOrFalse' => 'required_if:question_type,T|in:T,F',
             'suitable_words' => 'required_if:question_type,F',

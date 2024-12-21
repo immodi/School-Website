@@ -315,8 +315,8 @@
                                 <button v-if="can_file_upload" class="btn" type="button"> <i class="ti-clip"></i>
                                     <input type="file" @change="onFileChange" id="imgInp" ref="file" v-on:change="onChangeFileUpload()" accept=".jpg,.jpeg,.png,.doc,.docx,.pdf,.mp4,.3gp,.webm">
                                 </button>
-                              <!-- <button class="btn svg_send_button" @click="sendMessage" type="button"> -->
-                                <button class="btn svg_send_button" type="submit">
+                                <button class="btn svg_send_button" @click="sendMessage" type="button">
+                                <!-- <button class="btn svg_send_button" type="submit"> -->
 
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40" width="20px" height="20px">
                                   <g id="surface57286370">
@@ -777,7 +777,6 @@ export default {
             formData.append('message', this.$refs.contenteditor.$el.children[1].innerText + "&#8203;&#8203;");
             formData.append('user_id', this.user.id);
             formData.append('group_id', this.group.id);
-            console.log(formData);
             
 
             axios.post(this.send_message_url, formData, config).then((response) => {
@@ -796,9 +795,9 @@ export default {
 
                 this.$forceUpdate()
                 this.closePreview()
-                this.intervalId = window.setInterval(() => {
-                    this.checkNewMessage()
-                }, 10000);
+                // this.intervalId = window.setInterval(() => {
+                //     this.checkNewMessage()
+                // }, 10000);
                 this.$refs.loadingSpinner.style.display = 'none';
             }).catch((error) => {
                 console.log(error);
@@ -838,7 +837,8 @@ export default {
             }
             formData.append('user_id', this.user.id)
             formData.append('group_id', this.group.id)
-            axios.post(this.new_message_check_url, formData).then((response) => {
+            
+            axios.post(this.new_message_check_url, formData).then((response) => {                
                 if (response.data.invalid){
                     return 0;
                 }
