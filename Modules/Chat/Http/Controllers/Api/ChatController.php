@@ -139,17 +139,20 @@ class ChatController extends Controller
                 'message' => $validation->messages()
             ]);
         }
-        
-        $users = $this->invitationService->getAllConnectedUsers();
-        $activeUser = User::with('staff')->find($request->user_id);
 
-        // Check if the user is a staff member
-        if ($activeUser->staff) {
+
+        $teachers = User::whereIn('role_id', [4])
+            ->get()
+            ->pluck('id') // Get the user IDs of teachers
+            ->toArray();
+        
+        // Check if the user from the request is in the list of teachers
+        if (in_array($request->input('user_id'), $teachers)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Staff members cannot delete conversations.'
             ]);
-        }            
+        }
 
         try {
             if ($this->conversationService->oneToOneDelete($request->all())) {
