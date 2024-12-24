@@ -271,20 +271,26 @@
                                     <div class="row mt-15">
                                         <div class="col-lg-12">
                                             <div class="primary_input">
+                                                <textarea name="question" id="hiddenQuestionInput" style="display: none;"></textarea>
                                                 <label class="primary_input_label" for="">@lang('exam.question') <span
                                                         class="text-danger"> *</span></label>
                                                 <!-- <textarea class="primary_input_field form-control{{ $errors->has('question') ? ' is-invalid' : '' }}" cols="0"
                                                     rows="4" name="question">{{ isset($bank) ? $bank->question : (old('question') != '' ? old('question') : '') }}</textarea> -->
-                                                    <div id="editor primary_input_field form-control{{ $errors->has('question') ? ' is-invalid' : '' }}">
+                                                    <div id="editor" class="primary_input_field form-control{{ $errors->has('question') ? ' is-invalid' : '' }}">
                                                         {{ isset($bank) ? $bank->question : (old('question') != '' ? old('question') : '') }}
                                                     </div>
 
-                                                    <script>
+                                                    <script>                                                      
                                                         const quill = new Quill('#editor', {
-                                                            theme: 'snow'
+                                                            theme: 'snow',
                                                         });
 
 
+                                                        quill.on('text-change', () => {
+                                                            const editorContent = quill.root.innerHTML;  // Get the innerHTML of the editor
+                                                            document.querySelector("#hiddenQuestionInput").innerText = editorContent
+                                                        });
+                                                        
                                                     </script>
 
                                                 @if ($errors->has('question'))
