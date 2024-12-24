@@ -52,190 +52,36 @@
   });
 
 
- // Function to dynamically load a script
-function loadScript(url, callback) {
-  const script = document.createElement('script');
-  script.src = url;
-  script.onload = callback;
-  document.head.appendChild(script);
-}
 
-// Function to dynamically load a stylesheet
-function loadStyle(url) {
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = url;
-  document.head.appendChild(link);
-}
+document.addEventListener("DOMContentLoaded", () => {
+  // document.querySelector("#hiddenQuestionInput").style.display = "none"
+  const fileInputNew = document.querySelector('input[name="question_image"]');
+  const imagePreviewContainer = document.getElementById('image-preview-container');
+  const imagePreview = document.getElementById('image-preview');
 
-// Function to replace the textarea and initialize Quill
-function replaceTextareaWithEditor() {
-  // Find the specific textarea
-  const textarea = document.querySelector('textarea.primary_input_field.form-control[name="question"]');
-  console.log(textarea);
-  
-  if (!textarea) {
-    console.warn('Textarea not found!');
-    return;
-  }
-
-  // Create a new div for the editor
-  const editorDiv = document.createElement('div');
-  editorDiv.className = 'editor';
-
-  // Replace the textarea with the editor div
-  textarea.parentNode.replaceChild(editorDiv, textarea);
-
-  // Initialize Quill editor
-  const quill = new Quill('.editor', {
-    theme: 'snow',
+  // Add an event listener to the file input
+  fileInputNew.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    
+    if (file && file.type.startsWith('image/')) {
+      // Create a URL for the image and set it as the source for the preview
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        imagePreview.src = e.target.result;
+        imagePreviewContainer.style.display = 'block'; // Show the preview container
+      };
+      
+      reader.readAsDataURL(file); // Read the image file as a data URL
+    } else {
+      // Hide the preview if the file is not an image
+      imagePreviewContainer.style.display = 'none';
+    }
   });
 
-  // Sync content back to a hidden input if needed
-  const hiddenInput = document.createElement('textarea');
-  hiddenInput.type = 'hidden'  
-  hiddenInput.id = "hiddenQuestionInput"
-  hiddenInput.name = "question"
-  hiddenInput.style.display = "none"
-  hiddenInput.name = textarea.name; // Maintain the original name attribute
-  document.querySelector("#question_bank").appendChild(hiddenInput);
-
-  quill.on('text-change', () => {
-    const editorContent = quill.root.innerHTML;  // Get the innerHTML of the editor
-    document.querySelector("#hiddenQuestionInput").innerText = editorContent
-  });
+})
 
 
-}
-
-
-//   setTimeout(() => {    
-//     console.log("etu");
-    
-//     observeEditorChanges()
-//   }, 5900);
-
-// function observeEditorChanges() {
-//   // Select the editor div
-//   const editorDiv = document.querySelector('.ql-editor');
-  
-//   if (!editorDiv) {
-//     console.warn('Editor div not found!');
-//     return;
-//   }
-
-//   // Create a MutationObserver to detect changes
-//   // const observer = new MutationObserver((mutations) => {
-//   //   mutations.forEach(() => {
-//   //     console.log(editorDiv.innerHTML);
-
-//   //     document.querySelector("#hiddenQuestionInput").innerText = editorDiv.innerHTML
-//   //   });
-//   // });
-
-//   // Start observing the editor div
-//   observer.observe(editorDiv, {
-//     childList: true,  // Watch for added/removed child nodes
-//     subtree: true,    // Watch changes within the subtree
-//     characterData: true, // Watch changes in text nodes
-//   });
-
-// }
-
-// Load the necessary Quill scripts and styles, then replace the textarea
-loadStyle('https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css');
-loadScript('https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js', replaceTextareaWithEditor);
-
-function appendImageInputToElement(targetElement) {  
-  // Create the container for the input field and preview
-  const rowDiv = document.createElement('div');
-  rowDiv.classList.add('row', 'mt-15');
-  
-  const colDiv = document.createElement('div');
-  colDiv.classList.add('col-lg-12');
-  
-  const primaryInputDiv = document.createElement('div');
-  primaryInputDiv.classList.add('primary_input');
-  
-  const label = document.createElement('label');
-  label.classList.add('primary_input_label');
-  label.setAttribute('for', 'question_image');
-  label.innerHTML = 'Image <span class="text-danger"> *</span>';
-
-  const fileInput = document.createElement('input');
-  fileInput.type = 'file';
-  fileInput.classList.add('primary_input_field', 'form-control');
-  fileInput.name = 'question_image';
-  fileInput.accept = 'image/*';
-  fileInput.id = 'question_image';
-
-  const imagePreviewContainer = document.createElement('div');
-  imagePreviewContainer.id = 'image-preview-container';
-  imagePreviewContainer.style.display = 'none'; // Initially hidden
-
-  const imagePreview = document.createElement('img');
-  imagePreview.id = 'image-preview';
-  imagePreview.alt = 'Image Preview';
-  imagePreview.style.maxWidth = '100%';
-  imagePreview.style.marginTop = '10px';
-  imagePreview.style.borderRadius = '5px';
-
-  // Append elements to form the structure
-  imagePreviewContainer.appendChild(imagePreview);
-  primaryInputDiv.appendChild(label);
-  primaryInputDiv.appendChild(fileInput);
-  primaryInputDiv.appendChild(imagePreviewContainer);
-
-  colDiv.appendChild(primaryInputDiv);
-  rowDiv.appendChild(colDiv);
-
-  // Append the entire structure to the target element
-  if (targetElement) {
-    targetElement.appendChild(rowDiv);
-
-    // Add event listener for the file input to show preview
-    fileInput.addEventListener('change', function(event) {
-      const file = event.target.files[0];
-      if (file && file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          imagePreview.src = e.target.result;
-          imagePreviewContainer.style.display = 'block'; // Show the preview container
-        };
-        reader.readAsDataURL(file);
-      } else {
-        imagePreviewContainer.style.display = 'none'; // Hide if not an image
-      }
-    });
-  } else {
-    console.warn('Target element not found!');
-  }
-}
-
-appendImageInputToElement(document.querySelector(".add-visitor"))
-const fileInputNew = document.querySelector('input[name="question_image"]');
-const imagePreviewContainer = document.getElementById('image-preview-container');
-const imagePreview = document.getElementById('image-preview');
-
-// Add an event listener to the file input
-fileInputNew.addEventListener('change', function(event) {
-  const file = event.target.files[0];
-  
-  if (file && file.type.startsWith('image/')) {
-    // Create a URL for the image and set it as the source for the preview
-    const reader = new FileReader();
-    
-    reader.onload = function(e) {
-      imagePreview.src = e.target.result;
-      imagePreviewContainer.style.display = 'block'; // Show the preview container
-    };
-    
-    reader.readAsDataURL(file); // Read the image file as a data URL
-  } else {
-    // Hide the preview if the file is not an image
-    imagePreviewContainer.style.display = 'none';
-  }
-});
 
 
 
