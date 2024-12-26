@@ -319,12 +319,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                        
+                                    <textarea name="question_image" style="display: none;" id="questionImageContainer"></textarea>
 
                                     <div class="row mt-15">
                                         <div class="col-lg-12">  
                                             <div class="primary_input">
                                                 <label class="primary_input_label" for="">image <span class="text-danger"> *</span></label>
-                                                <input type="file" class="primary_input_field form-control" name="question_image" accept="image/*">
+                                                <input type="file" class="primary_input_field form-control" accept="image/*">
                                                 <!-- Preview container for the image -->
                                                 <div id="image-preview-container" style="display: none;">
                                                     <img id="image-preview" src="" alt="Image Preview" style="max-width: 100%; margin-top: 10px; border-radius: 5px;">

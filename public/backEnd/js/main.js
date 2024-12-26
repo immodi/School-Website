@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
       
       reader.onload = function(e) {
         imagePreview.src = e.target.result;
+        document.querySelector("#questionImageContainer").innerHTML = e.target.result; 
         imagePreviewContainer.style.display = 'block'; // Show the preview container
       };
       

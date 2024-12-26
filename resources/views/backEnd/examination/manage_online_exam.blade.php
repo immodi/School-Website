@@ -187,7 +187,8 @@
                                                 {{'True False'}}
                                             @endif
                                         </td>
-                                        <td>{{@$question_bank->question}}</td>
+                                        <!-- <td>{{@$question_bank->question}}</td> -->
+                                        <td>{!! @$question_bank->question !!}</td>
                                         <td>{{@$question_bank->marks}}</td>
                                         <td>
                                             <x-drop-down>
