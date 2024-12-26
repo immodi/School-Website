@@ -89,8 +89,8 @@ class SmQuestionBankController extends Controller
                     $image_info = getimagesize($request->file('question_image'));
                     if ($image_info[0] <= 650 && $image_info[1] <= 450) {
                         $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-                        $file->move('public/uploads/upload_contents/', $fileName);
-                        $fileName = 'public/uploads/upload_contents/' . $fileName;
+                        $file->move('public/uploads/images/', $fileName);
+                        $fileName = 'public/uploads/images/' . $fileName;
                     } else {
                         Toastr::error('Question Image should be 650x450', 'Failed');
                         // return redirect()->back();
@@ -108,7 +108,7 @@ class SmQuestionBankController extends Controller
                     $online_question->un_session_id = $request->un_session_id;
                     $online_question->un_faculty_id = $request->un_faculty_id;
                     $online_question->un_department_id = $request->un_department_id;
-                    $online_question->question_image = $fileName;
+                    $online_question->question_image = $request->question_image;
 
                     $online_question->marks = $request->marks;
                     $online_question->question = $request->question;
@@ -155,8 +155,8 @@ class SmQuestionBankController extends Controller
                     $image_info = getimagesize($request->file('question_image'));
                     if ($image_info[0] <= 650 && $image_info[1] <= 450) {
                         $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-                        $file->move('public/uploads/upload_contents/', $fileName);
-                        $fileName = 'public/uploads/upload_contents/' . $fileName;
+                        $file->move('public/uploads/images/', $fileName);
+                        $fileName = 'public/uploads/images/' . $fileName;
                     } else {
                         Toastr::error('Question Image should be 650x450', 'Failed');
                         // return redirect()->back();
@@ -183,7 +183,7 @@ class SmQuestionBankController extends Controller
                         $online_question->number_of_option = $request->number_of_option;
                         $online_question->school_id = Auth::user()->school_id;
                         $online_question->un_academic_id = getAcademicId();
-                        $online_question->question_image = $fileName;
+                        $online_question->question_image = $request->question_image;
                         $online_question->save();
                         $online_question->toArray();
                         $i = 0;
@@ -262,6 +262,8 @@ class SmQuestionBankController extends Controller
                             $online_question->trueFalse = $request->trueOrFalse;
                         }
                         $result = $online_question->save();
+                        $online_question->question_image = $request->question_image;
+
                     }
                     if ($result) {
                         Toastr::success('Operation successful', 'Success');
@@ -310,8 +312,8 @@ class SmQuestionBankController extends Controller
                             $image_info = getimagesize($request->file('question_image'));
                             if ($image_info[0] <= 650 && $image_info[1] <= 450) {
                                 $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-                                $file->move('public/uploads/upload_contents/', $fileName);
-                                $fileName = 'public/uploads/upload_contents/' . $fileName;
+                                $file->move('public/uploads/images/', $fileName);
+                                $fileName = 'public/uploads/images/' . $fileName;
                             } else {
                                 Toastr::error('Question Image should be 650x450', 'Failed');
                                 // return redirect()->back();
@@ -328,7 +330,7 @@ class SmQuestionBankController extends Controller
                             $online_question->marks = $request->marks;
                             $online_question->question = $request->question;
                             $online_question->answer_type = $request->answer_type;
-                            $online_question->question_image = $fileName;
+                            $online_question->question_image = $request->question_image;
                             if ($request->question_type == 'MI') {
                                 $online_question->number_of_option = $request->number_of_optionImg;
                             } else {
@@ -352,8 +354,8 @@ class SmQuestionBankController extends Controller
                                 $fileName = "";
                                 if (($file[$key] != "")  && (in_array($file[$key]->getMimeType(), $imagemimes))) {
                                     $fileName = md5($file[$key]->getClientOriginalName() . time()) . "." . $file[$key]->getClientOriginalExtension();
-                                    $file[$key]->move('public/uploads/upload_contents/', $fileName);
-                                    $fileName = 'public/uploads/upload_contents/' . $fileName;
+                                    $file[$key]->move('public/uploads/images/', $fileName);
+                                    $fileName = 'public/uploads/images/' . $fileName;
                                 }
 
                                 $online_question_option->title = $fileName;
@@ -392,6 +394,8 @@ class SmQuestionBankController extends Controller
                             $online_question->number_of_option = $request->number_of_option;
                             $online_question->school_id = Auth::user()->school_id;
                             $online_question->academic_id = getAcademicId();
+                            $online_question->question_image = $request->question_image;
+
                             $online_question->save();
                             $online_question->toArray();
                             $i = 0;
@@ -551,8 +555,8 @@ class SmQuestionBankController extends Controller
                         $image_info = getimagesize($request->file('question_image'));
                         if ($image_info[0] <= 650 && $image_info[1] <= 450) {
                             $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-                            $file->move('public/uploads/upload_contents/', $fileName);
-                            $fileName = 'public/uploads/upload_contents/' . $fileName;
+                            $file->move('public/uploads/images/', $fileName);
+                            $fileName = 'public/uploads/images/' . $fileName;
                         } else {
                             Toastr::error('Question Image should be 650x450', 'Failed');
                             return redirect()->to(url()->previous())
@@ -583,8 +587,8 @@ class SmQuestionBankController extends Controller
                                 $fileName = "";
                                 if (($file[$key] != "")  && (in_array($file[$key]->getMimeType(), $imagemimes))) {
                                     $fileName = md5($file[$key]->getClientOriginalName() . time()) . "." . $file[$key]->getClientOriginalExtension();
-                                    $file[$key]->move('public/uploads/upload_contents/', $fileName);
-                                    $fileName = 'public/uploads/upload_contents/' . $fileName;
+                                    $file[$key]->move('public/uploads/images/', $fileName);
+                                    $fileName = 'public/uploads/images/' . $fileName;
                                 }
                             } else {
                                 $fileName = $request->images_old[$key];
@@ -738,8 +742,8 @@ class SmQuestionBankController extends Controller
                             $image_info = getimagesize($request->file('question_image'));
                             if ($image_info[0] <= 650 && $image_info[1] <= 450) {
                                 $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-                                $file->move('public/uploads/upload_contents/', $fileName);
-                                $fileName = 'public/uploads/upload_contents/' . $fileName;
+                                $file->move('public/uploads/images/', $fileName);
+                                $fileName = 'public/uploads/images/' . $fileName;
                             } else {
                                 Toastr::error('Question Image should be 650x450', 'Failed');
                                 return redirect()->to(url()->previous())
@@ -770,8 +774,8 @@ class SmQuestionBankController extends Controller
                                     $fileName = "";
                                     if (($file[$key] != "")  && (in_array($file[$key]->getMimeType(), $imagemimes))) {
                                         $fileName = md5($file[$key]->getClientOriginalName() . time()) . "." . $file[$key]->getClientOriginalExtension();
-                                        $file[$key]->move('public/uploads/upload_contents/', $fileName);
-                                        $fileName = 'public/uploads/upload_contents/' . $fileName;
+                                        $file[$key]->move('public/uploads/images/', $fileName);
+                                        $fileName = 'public/uploads/images/' . $fileName;
                                     }
                                 } else {
                                     $fileName = $request->images_old[$key];
