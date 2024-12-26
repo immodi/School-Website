@@ -85,19 +85,19 @@ class SmQuestionBankController extends Controller
                     return redirect()->back();
                 }
 
-                // if (($request->file('question_image') != "")  && (in_array($file->getMimeType(), $imagemimes))) {
-                //     $image_info = getimagesize($request->file('question_image'));
-                //     if ($image_info[0] <= 650 && $image_info[1] <= 450) {
-                //         $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-                //         $file->move('public/uploads/images/', $fileName);
-                //         $fileName = 'public/uploads/images/' . $fileName;
-                //     } else {
-                //         Toastr::error('Question Image should be 650x450', 'Failed');
-                //         // return redirect()->back();
-                //         return redirect()->to(url()->previous())
-                //             ->withInput($request->input());
-                //     }
-                // }
+                if (($request->file('question_image') != "")  && (in_array($file->getMimeType(), $imagemimes))) {
+                    $image_info = getimagesize($request->file('question_image'));
+                    if ($image_info[0] <= 650 && $image_info[1] <= 450) {
+                        $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
+                        $file->move('public/uploads/images/', $fileName);
+                        $fileName = 'public/uploads/images/' . $fileName;
+                    } else {
+                        Toastr::error('Question Image should be 650x450', 'Failed');
+                        // return redirect()->back();
+                        return redirect()->to(url()->previous())
+                            ->withInput($request->input());
+                    }
+                }
 
                 foreach ($request->un_section_ids as $section) {
                     $online_question = new SmQuestionBank();
@@ -151,19 +151,19 @@ class SmQuestionBankController extends Controller
                     return redirect()->back();
                 }
 
-                // if (($request->file('question_image') != "")  && (in_array($file->getMimeType(), $imagemimes))) {
-                //     $image_info = getimagesize($request->file('question_image'));
-                //     if ($image_info[0] <= 650 && $image_info[1] <= 450) {
-                //         $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-                //         $file->move('public/uploads/images/', $fileName);
-                //         $fileName = 'public/uploads/images/' . $fileName;
-                //     } else {
-                //         Toastr::error('Question Image should be 650x450', 'Failed');
-                //         // return redirect()->back();
-                //         return redirect()->to(url()->previous())
-                //             ->withInput($request->input());
-                //     }
-                // }
+                if (($request->file('question_image') != "")  && (in_array($file->getMimeType(), $imagemimes))) {
+                    $image_info = getimagesize($request->file('question_image'));
+                    if ($image_info[0] <= 650 && $image_info[1] <= 450) {
+                        $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
+                        $file->move('public/uploads/images/', $fileName);
+                        $fileName = 'public/uploads/images/' . $fileName;
+                    } else {
+                        Toastr::error('Question Image should be 650x450', 'Failed');
+                        // return redirect()->back();
+                        return redirect()->to(url()->previous())
+                            ->withInput($request->input());
+                    }
+                }
 
                 DB::beginTransaction();
 
@@ -308,19 +308,19 @@ class SmQuestionBankController extends Controller
                         }
 
 
-                        // if (($request->file('question_image') != "")  && (in_array($file->getMimeType(), $imagemimes))) {
-                        //     $image_info = getimagesize($request->file('question_image'));
-                        //     if ($image_info[0] <= 650 && $image_info[1] <= 450) {
-                        //         $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
-                        //         $file->move('public/uploads/images/', $fileName);
-                        //         $fileName = 'public/uploads/images/' . $fileName;
-                        //     } else {
-                        //         Toastr::error('Question Image should be 650x450', 'Failed');
-                        //         // return redirect()->back();
-                        //         return redirect()->to(url()->previous())
-                        //             ->withInput($request->input());
-                        //     }
-                        // }
+                        if (($request->file('question_image') != "")  && (in_array($file->getMimeType(), $imagemimes))) {
+                            $image_info = getimagesize($request->file('question_image'));
+                            if ($image_info[0] <= 650 && $image_info[1] <= 450) {
+                                $fileName = md5($file->getClientOriginalName() . time()) . "." . $file->getClientOriginalExtension();
+                                $file->move('public/uploads/images/', $fileName);
+                                $fileName = 'public/uploads/images/' . $fileName;
+                            } else {
+                                Toastr::error('Question Image should be 650x450', 'Failed');
+                                // return redirect()->back();
+                                return redirect()->to(url()->previous())
+                                    ->withInput($request->input());
+                            }
+                        }
                         foreach ($request->section as $section) {
                             $online_question = new SmQuestionBank();
                             $online_question->type = $request->question_type;
