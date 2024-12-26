@@ -71,11 +71,13 @@
 
                                         <tr>
                                             <td width="80%" class="pt-5">
-                                                <h4>{{++$j.'.'}} {!! @$question->questionBank->question !!}</h4> 
-                                                <div class="qustion_banner_img">
-                                                    <img src="{{asset($question->questionBank->question_image)}}" alt="">
-                                                </div>
-                                                @endif
+                                                <!-- <h4>{{++$j.'.'}} {!! @$question->questionBank->question !!}</h4>  -->
+                                                <h4>{{++$j.'.'}} {{@$question->questionBank->question}}</h4> 
+                                                <!-- @if(@$question->questionBank->type == "MI")
+                                                    <div class="qustion_banner_img">
+                                                        <img src="{{asset($question->questionBank->question_image)}}" alt="">
+                                                    </div>
+                                                @endif -->
                                                 @if(@$question->questionBank->type == "M")
                                                     @php
                                                         @$multiple_options = @$question->questionBank->questionMu;
