@@ -55,7 +55,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   // document.querySelector("#hiddenQuestionInput").style.display = "none"
-  const fileInputNew = document.querySelector('input[name="question_image"]');
+  const fileInputNew = document.querySelector('#questionImageInput');
   const imagePreviewContainer = document.getElementById('image-preview-container');
   const imagePreview = document.getElementById('image-preview');
 
