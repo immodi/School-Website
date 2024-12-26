@@ -71,8 +71,8 @@
 
                                         <tr>
                                             <td width="80%" class="pt-5">
-                                                <!-- <h4>{{++$j.'.'}} {!! @$question->questionBank->question !!}</h4>  -->
-                                                <h4>{{++$j.'.'}} {{@$question->questionBank->question}}</h4> 
+                                                <h4>{{++$j.'.'}} {!! @$question->questionBank->question !!}</h4> 
+                                                <!-- <h4>{{++$j.'.'}} {{@$question->questionBank->question}}</h4>  -->
                                                 <!-- @if(@$question->questionBank->type == "MI")
                                                     <div class="qustion_banner_img">
                                                         <img src="{{asset($question->questionBank->question_image)}}" alt="">
