@@ -74,7 +74,7 @@
                                                 <h4>{{++$j.'.'}} {!! @$question->questionBank->question !!}</h4> 
                                                 <!-- {{ $question->questionBank->question_image }} -->
                                                 <div class="qustion_banner_img">
-                                                    <img src="{{ $question->questionBank->question_image }}" alt="">
+                                                    <img src="{{ @$question->questionBank->question_image }}" alt="">
                                                 </div>
                                                 <!-- @if(@$question->questionBank->type == "MI")
                                                    
