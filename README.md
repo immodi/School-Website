@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 # School-Website
-=======
-=======
->>>>>>> 04d9f51 (merge master)
 ## About Infix Edu - The Ultimate Education Management System For School, Institute & Academy 
 
 Managing various administrative tasks in one place is now quite easy and time savior with this INFIX and Give your valued time to your institute that will increase next generation productivity for our society.
@@ -26,11 +21,4 @@ You know! Smart Idea always comes to well planners. And Our INFIX is Smart for i
 Explore in new support world! It’s now faster & quicker. You’ll find us on Support Ticket, Email, Skype, WhatsApp.
 
 
- 
-<<<<<<< HEAD
->>>>>>> 3b3f500 (Initial commit)
-=======
-=======
 # School-Website
->>>>>>> f4a02f0 (Initial commit)
->>>>>>> 04d9f51 (merge master)
