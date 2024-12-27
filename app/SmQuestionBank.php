@@ -15,7 +15,8 @@ class SmQuestionBank extends Model
         static::addGlobalScope(new StatusAcademicSchoolScope);
     }
 
-
+    protected $guarded = [];
+    
     public function questionGroup()
     {
         return $this->belongsTo('App\SmQuestionGroup', 'q_group_id')->withOutGlobalScope(StatusAcademicSchoolScope::class);
