@@ -4,9 +4,7 @@
 @endsection
 @section('quill')
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-    <sctipt src="https://github.com/c-w/mathquill4quill/releases/download/v2.4.0/mathquill4quill.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
-    <link href="https://github.com/c-w/mathquill4quill/releases/download/v2.4.0/mathquill4quill.min.css" rel="stylesheet">
 @endsection
 @push('css')
     <style>
@@ -286,16 +284,7 @@
 
                                                     <script>                                                      
                                                         const quill = new Quill('#editor', {
-                                                            modules: {
-                                                                formula: true,
-                                                                toolbar: [['formula']]
-                                                            },
                                                             theme: 'snow',
-                                                        });
-
-                                                        let enableMathQuillFormulaAuthoring = mathquill4quill();
-                                                        enableMathQuillFormulaAuthoring(quill, {
-                                                            operators: [["\\sqrt[n]{x}", "\\nthroot"], ["\\frac{x}{y}","\\frac"]]
                                                         });
 
                                                         quill.on('text-change', () => {
