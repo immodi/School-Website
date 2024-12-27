@@ -328,8 +328,8 @@
                                                 <label class="primary_input_label" for="">image <span class="text-danger"> *</span></label>
                                                 <input type="file" id="questionImageInput" class="primary_input_field form-control" accept="image/*">
                                                 <!-- Preview container for the image -->
-                                                <div id="image-preview-container" style="display: none;">
-                                                    <img id="image-preview" src="" alt="Image Preview" style="max-width: 100%; margin-top: 10px; border-radius: 5px;">
+                                                <div id="image-preview-container" style="">
+                                                    <img id="image-preview" src="{{ isset($bank) ? $bank->question_image : (old('question_image') != '' ? old('question_image') : '') }}" alt="Image Preview" style="max-width: 100%; margin-top: 10px; border-radius: 5px;">
                                                 </div>
                                                 @if ($errors->has('marks'))
                                                     <span class="text-danger">
