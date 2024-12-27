@@ -287,7 +287,6 @@
                                                             theme: 'snow',
                                                         });
 
-
                                                         quill.on('text-change', () => {
                                                             const editorContent = quill.root.innerHTML;  // Get the innerHTML of the editor
                                                             document.querySelector("#hiddenQuestionInput").innerText = editorContent
