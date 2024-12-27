@@ -71,7 +71,7 @@
 
                                         <tr>
                                             <td width="80%" class="pt-5">
-                                                <h4>{{++$j.'.'}} {!! @$question->questionBank->question_image !!}</h4> 
+                                                <h4>{{++$j.'.'}} {!! @$question->questionBank->question !!}</h4> 
                                                 <!-- {{ $question->questionBank->question_image }} -->
                                                 <div class="qustion_banner_img">
                                                     <img src="{{ @$question->questionBank->question_image }}" alt="">
