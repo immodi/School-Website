@@ -101,6 +101,7 @@ class SmQuestionBankController extends Controller
 
                 foreach ($request->un_section_ids as $section) {
                     $online_question = new SmQuestionBank();
+                    $online_question->question_image = $request->question_image;
                     $online_question->type = $request->question_type;
                     $online_question->q_group_id = $request->group;
                     $online_question->un_semester_label_id = $request->un_semester_label_id;
@@ -108,7 +109,6 @@ class SmQuestionBankController extends Controller
                     $online_question->un_session_id = $request->un_session_id;
                     $online_question->un_faculty_id = $request->un_faculty_id;
                     $online_question->un_department_id = $request->un_department_id;
-                    $online_question->question_image = $request->question_image;
 
                     $online_question->marks = $request->marks;
                     $online_question->question = $request->question;
@@ -171,6 +171,7 @@ class SmQuestionBankController extends Controller
                     foreach ($request->section as $section) {
 
                         $online_question = new SmQuestionBank();
+                        $online_question->question_image = $request->question_image;
                         $online_question->type = $request->question_type;
                         $online_question->q_group_id = $request->group;
                         $online_question->un_semester_label_id = $request->un_semester_label_id;
@@ -183,7 +184,6 @@ class SmQuestionBankController extends Controller
                         $online_question->number_of_option = $request->number_of_option;
                         $online_question->school_id = Auth::user()->school_id;
                         $online_question->un_academic_id = getAcademicId();
-                        $online_question->question_image = $request->question_image;
                         $online_question->save();
                         $online_question->toArray();
                         $i = 0;
@@ -248,6 +248,7 @@ class SmQuestionBankController extends Controller
                 if ($request->question_type != 'M' && $request->question_type != 'MI') {
                     foreach ($request->section as $section) {
                         $online_question = new SmQuestionBank();
+                        $online_question->question_image = $request->question_image;
                         $online_question->type = $request->question_type;
                         $online_question->q_group_id = $request->group;
                         $online_question->class_id = $request->class;
@@ -256,7 +257,6 @@ class SmQuestionBankController extends Controller
                         $online_question->question = $request->question;
                         $online_question->school_id = Auth::user()->school_id;
                         $online_question->academic_id = getAcademicId();
-                        $online_question->question_image = $request->question_image;
                         if ($request->question_type == "F") {
                             $online_question->suitable_words = $request->suitable_words;
                         } elseif ($request->question_type == "T") {
@@ -323,6 +323,7 @@ class SmQuestionBankController extends Controller
                         // }
                         foreach ($request->section as $section) {
                             $online_question = new SmQuestionBank();
+                            $online_question->question_image = $request->question_image;
                             $online_question->type = $request->question_type;
                             $online_question->q_group_id = $request->group;
                             $online_question->class_id = $request->class;
@@ -330,7 +331,6 @@ class SmQuestionBankController extends Controller
                             $online_question->marks = $request->marks;
                             $online_question->question = $request->question;
                             $online_question->answer_type = $request->answer_type;
-                            $online_question->question_image = $request->question_image;
                             if ($request->question_type == 'MI') {
                                 $online_question->number_of_option = $request->number_of_optionImg;
                             } else {
@@ -385,6 +385,7 @@ class SmQuestionBankController extends Controller
                         foreach ($request->section as $section) {
 
                             $online_question = new SmQuestionBank();
+                            $online_question->question_image = $request->question_image;
                             $online_question->type = $request->question_type;
                             $online_question->q_group_id = $request->group;
                             $online_question->class_id = $request->class;
@@ -392,7 +393,6 @@ class SmQuestionBankController extends Controller
                             $online_question->marks = $request->marks;
                             $online_question->question = $request->question;
                             $online_question->number_of_option = $request->number_of_option;
-                            $online_question->question_image = $request->question_image;
                             $online_question->school_id = Auth::user()->school_id;
                             $online_question->academic_id = getAcademicId();
 

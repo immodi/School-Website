@@ -72,8 +72,8 @@
                                         <tr>
                                             <td width="80%" class="pt-5">
                                                 <h4>{{++$j.'.'}} {!! @$question->questionBank->question !!}</h4> 
-                                                <div class="qustion_banner_img">
                                                 <!-- {{ $question->questionBank->question_image }} -->
+                                                <div class="qustion_banner_img">
                                                     <img src="{{ $question->questionBank->question_image }}" alt="">
                                                 </div>
                                                 <!-- @if(@$question->questionBank->type == "MI")
@@ -102,7 +102,7 @@
                                                 @endphp
                                                 <div class="quiestion_group">
                                                     @foreach($multiple_options as $multiple_option)
-                                                        <div class="single_question " style="background-image: url({{asset($multiple_option->title)}})">
+                                                        <div class="single_question" style="background-image: url({{asset($multiple_option->title)}})">
 
                                                             <div class="img_ovelay">
                                                                 <div class="icon">
