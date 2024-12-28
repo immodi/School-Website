@@ -325,7 +325,10 @@
                                     <div class="row mt-15">
                                         <div class="col-lg-12">  
                                             <div class="primary_input">
-                                                <textarea name="question_image" style="display: none;" id="questionImageContainer"></textarea>
+                                                <textarea name="question_image" style="display: none;" id="questionImageContainer">
+                                                    {{ isset($bank) ? $bank->question_image : (old('question_image') != '' ? old('question_image') : '') }}
+                                                </textarea>
+
                                                 <label class="primary_input_label" for="">image <span class="text-danger"> *</span></label>
                                                 <input type="file" id="questionImageInput" class="primary_input_field form-control" accept="image/*">
                                                 <!-- Preview container for the image -->
