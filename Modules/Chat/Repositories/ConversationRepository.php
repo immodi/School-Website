@@ -38,7 +38,7 @@ class ConversationRepository
 
     public function groupMessageDelete(GroupMessageRecipient $thread)
     {
-        if($thread->user_id == auth()->id() || auth()->user()->role_id == 4){
+        if($thread->user_id == auth()->id() || auth()->user()->role_id == 1){
             $thread->conversation()->delete();
             return $thread->delete();
         }
