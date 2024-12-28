@@ -166,7 +166,7 @@
                                                class="dropdown-item cursor-pointer">
                                                 {{__('forward')}}
                                             </a>
-                                            <a v-if="thread.user.id == user.id" @click="deleteMessage(thread)"
+                                            <a v-if="thread.user.id == user.id || user.role_id == 1" @click="deleteMessage(thread)"
                                                class="dropdown-item cursor-pointer">
                                                 {{__('delete')}}
                                             </a>
@@ -176,7 +176,7 @@
                           </div>
 
                         </div>
-                        <div v-if="thread.user.id == user.id && !thread.removedByMe" class="chat_single d-flex sender_chat" style="overflow: unset">
+                        <div v-if="thread.user.id == user.id && !thread.removedByMe || user.role_id == 1" class="chat_single d-flex sender_chat" style="overflow: unset">
                           <div class="chat_text_info_wraper d-flex align-items-center">
                                 <span class="chat_date ml_15">
                                     {{ diffHuman(thread.conversation.created_at) }}

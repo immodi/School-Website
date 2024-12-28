@@ -39,7 +39,7 @@ class ConversationService
 
         $thread = GroupMessageRecipient::with('group.users','conversation')->find($data['thread_id']);
 
-        if ($thread->group->users->contains('id',auth()->id())){
+        if ($thread->group->users->contains(fn($user) => $user->id === auth()->id() || $user->role_id === 1)) {
             return $this->conversationRepository->groupMessageDelete($thread);
         }
         return false;
