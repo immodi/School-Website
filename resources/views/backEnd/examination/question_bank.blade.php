@@ -285,13 +285,22 @@
                                                     <script>                                                      
                                                         const quill = new Quill('#editor', {
                                                             theme: 'snow',
+                                                            modules: {
+                                                            toolbar: [
+                                                                ['bold', 'italic', 'underline'], // Formatting buttons
+                                                                [{ header: [1, 2, 3, false] }],    // Header options (h1, h2, normal text)
+                                                                ['link'],                      // Link option
+                                                                [{ direction: 'rtl' }],        // RTL button
+                                                                [{ align: [] }]                // Alignment options (left, center, right, justify)
+                                                            ]
+                                                            }
                                                         });
 
+                                                        // Event listener to capture editor content
                                                         quill.on('text-change', () => {
-                                                            const editorContent = quill.root.innerHTML;  // Get the innerHTML of the editor
-                                                            document.querySelector("#hiddenQuestionInput").innerText = editorContent
+                                                            const editorContent = quill.root.innerHTML; // Get the innerHTML of the editor
+                                                            document.querySelector("#hiddenQuestionInput").value = editorContent;
                                                         });
-                                                        
                                                     </script>
 
                                                 @if ($errors->has('question'))
