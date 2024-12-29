@@ -14,9 +14,18 @@
                 <div class="row mt-25">
                     <div class="col-lg-12">
                         <div class="primary_input">
-                            <textarea class="primary_input_field form-control read-only-input" cols="0" rows="5" name="question_title" readonly="true">{{@$question_bank->question}}</textarea>
+                            <textarea class="primary_input_field form-control read-only-input" cols="0" rows="5" name="question_title" readonly="true">{!! @$question_bank->question !!}</textarea>
                             <label class="primary_input_label" for="">@lang('exam.question_title')</label>
                             
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-25">
+                    <div class="col-lg-12">
+                        <div class="primary_input">
+                            <img src="{{ @$question_bank->question_image }}" alt="">
+                            <label class="primary_input_label" for="">Question Image</label>                    
                         </div>
                     </div>
                 </div>
