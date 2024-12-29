@@ -38,7 +38,6 @@ class ConversationService
     public function groupMessageDelete($data){
 
         $thread = GroupMessageRecipient::with('group.users','conversation')->find($data['thread_id']);
-
         if ($thread->group->users->contains('id',auth()->id())){
             return $this->conversationRepository->groupMessageDelete($thread);
         }

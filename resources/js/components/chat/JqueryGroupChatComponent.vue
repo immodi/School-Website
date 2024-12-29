@@ -166,7 +166,7 @@
                                                class="dropdown-item cursor-pointer">
                                                 {{__('forward')}}
                                             </a>
-                                            <a v-if="thread.user.id == user.id" @click="deleteMessage(thread)"
+                                            <a v-if="thread.user.id == user.id || user.role_id == 1" @click="deleteMessage(thread)"
                                                class="dropdown-item cursor-pointer">
                                                 {{__('delete')}}
                                             </a>

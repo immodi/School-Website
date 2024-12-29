@@ -78,9 +78,13 @@
                                     
                                     <tr>
                                         <td width="80%" class="pt-5">
-                                            {{++$j.'.'}} {{@$question->questionBank->question}}
-                                            @if(@$question->questionBank->type == "MI")
-                            
+                                            {{++$j.'.'}} {!! @$question->questionBank->question !!}
+                                            <div class="qustion_banner_img">
+                                                <img src="{{ @$question->questionBank->question_image }}" alt="">
+                                            </div>
+
+                                        @if(@$question->questionBank->type == "MI")
+                        
                                             <img class="mb-20" width="100%" height="auto" src="{{asset($question->questionBank->question_image)}}" alt="">
                                         @endif
                                             @if(@$question->questionBank->type == "M")
