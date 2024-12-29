@@ -14,7 +14,9 @@
                 <div class="row mt-25">
                     <div class="col-lg-12">
                         <div class="primary_input">
-                            <textarea class="primary_input_field form-control read-only-input" cols="0" rows="5" name="question_title" readonly="true">{!! @$question_bank->question !!}</textarea>
+                        <div class="primary_input_field form-control read-only-input">
+                            {!! @$question_bank->question !!}
+                        </div>
                             <label class="primary_input_label" for="">@lang('exam.question_title')</label>
                             
                         </div>
