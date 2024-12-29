@@ -82,6 +82,7 @@
                                         <h4 class="text-center">
                                             {{++$j.'.'}} {!! @$question->questionBank->question !!}
                                         </h4>
+                                        <br>
                                         <div class="qustion_banner_img">
                                             <img src="{{ @$question->questionBank->question_image }}" alt="">
                                         </div>
